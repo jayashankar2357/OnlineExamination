@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+<title>
+Home Page
+</title>
+
+<style>
+#a
+{
+font:Palace Script MT;
+color:blue;
+font-size:10pt;
+}
+#a:hover
+</style>
+</head>
+
+<body bgcolor="black">
+
+<div id="Div3DCarouselMenuAS3FX">
+</div>
+	
+<script type="text/javascript" src="swfobject.js">
+</script>
+	
+<script type="text/javascript">
+		
+var flashvars = {};
+		
+var params = {};
+		
+params.base = "";
+		
+params.scale = "noscale";
+		
+params.salign = "tl";
+		
+params.wmode = "transparent";
+		
+params.allowFullScreen = "true";
+		
+params.allowScriptAccess = "always";
+		
+swfobject.embedSWF("3DCarouselMenuAS3FX.swf","Div3DCarouselMenuAS3FX", "1340", "600", "9.0.0", false, flashvars, params);
+
+	
+</script>
+ <script>
+var obj;
+function createObject()
+{
+  if(window.ActiveXObject)
+      {
+          obj=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      else
+          {
+              obj=new XMLHttpRequest();
+          }
+
+  }
+  function checkAvalibility(title)
+  {
+      createObject();
+      //alert(obj);
+      obj.open("GET","ajax_get_books.php?match="+title,true);
+      obj.send(null);
+      obj.onreadystatechange=callback
+  }
+  function callback()
+  {
+      if(obj.readyState==4)
+          {
+             var books=obj.responseText;
+             document.getElementById('books').innerHTML=books;
+          }
+  }
+  
+
+</script>
+
+
+<table align="center" width="400"  cellpadding="5">
+    <tr>
+      <td>
+ 	
+    <center>  <a href="http://localhost/online_exam/enquiry.php"><input type="text" name="search"  size="80" maxlength="50" onkeyup="checkAvalibility(this.value)"></a></center>
+	
+	</td>
+    </tr>
+  </table>
+<center>
+<a  href="http://localhost/online_exam/login.php">
+<font face="Monotype Corsiva" size="6" color="sky blue">Examination</font></a>..................................................
+    <a href="About_As/index.html" > 
+ <font face="Monotype Corsiva" size="6"  color="sky blue">About Us </font></a>
+</center>
+
+</body>
+</html>

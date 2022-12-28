@@ -1,0 +1,275 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            Domain Name System
+From Wikipedia, the free encyclopedia
+Jump to: navigation, search 
+The Domain Name System (DNS) is a hierarchical naming system built on a distributed database for computers, services, or any resource connected to the Internet or a private network. It associates various information with domain names assigned to each of the participating entities. Most importantly, it translates domain names meaningful to humans into the numerical identifiers associated with networking equipment for the purpose of locating and addressing these devices worldwide.
+An often-used analogy to explain the Domain Name System is that it serves as the phone book for the Internet by translating human-friendly computer hostnames into IP addresses. For example, the domain name www.example.com translates to the addresses 192.0.32.10 (IPv4) and 2620:0:2d0:200::10 (IPv6).
+The Domain Name System makes it possible to assign domain names to groups of Internet resources and users in a meaningful way, independent of each entity's physical location. Because of this, World Wide Web (WWW) hyperlinks and Internet contact information can remain consistent and constant even if the current Internet routing arrangements change or the participant uses a mobile device. Internet domain names are easier to remember than IP addresses such as 208.77.188.166 (IPv4) or 2001:db8:1f70::999:de8:7648:6e8 (IPv6). Users take advantage of this when they recite meaningful Uniform Resource Locators (URLs) and e-mail addresses without having to know how the computer actually locates them.
+The Domain Name System distributes the responsibility of assigning domain names and mapping those names to IP addresses by designating authoritative name servers for each domain. Authoritative name servers are assigned to be responsible for their particular domains, and in turn can assign other authoritative name servers for their sub-domains. This mechanism has made the DNS distributed and fault tolerant and has helped avoid the need for a single central register to be continually consulted and updated.
+In general, the Domain Name System also stores other types of information, such as the list of mail servers that accept email for a given Internet domain. By providing a worldwide, distributed keyword-based redirection service, the Domain Name System is an essential component of the functionality of the Internet.
+Other identifiers such as RFID tags, UPC codes, International characters in email addresses and host names, and a variety of other identifiers could all potentially utilize DNS.[1]
+The Domain Name System also defines the technical underpinnings of the functionality of this database service. For this purpose it defines the DNS protocol, a detailed specification of the data structures and communication exchanges used in DNS, as part of the Internet Protocol Suite.
+Internet Protocol Suite
+Application Layer
+BGP • DHCP • DNS • FTP • HTTP • IMAP • IRC • LDAP • MGCP • NNTP • NTP • POP • RIP • RPC • RTP • SIP • SMTP • SNMP • SSH • Telnet • TLS/SSL • XMPP •
+(more)
+Transport Layer
+TCP • UDP • DCCP • SCTP • RSVP • ECN •
+(more)
+Internet Layer
+IP (IPv4, IPv6) • ICMP • ICMPv6 • IGMP • IPsec •
+(more)
+Link Layer
+ARP/InARP • NDP • OSPF • Tunnels (L2TP) • PPP • Media Access Control (Ethernet, DSL, ISDN, FDDI) • (more)
+This box: view • talk • edit
+Contents
+[hide]
+•	1 Overview
+•	2 History
+•	3 Structure 
+o	3.1 Domain name space
+o	3.2 Domain name formulation
+o	3.3 Internationalized domain names
+o	3.4 Name servers 
+	3.4.1 Authoritative name server
+	3.4.2 Recursive and caching name server
+o	3.5 DNS resolvers
+•	4 Operation 
+o	4.1 Address resolution mechanism
+o	4.2 Circular dependencies and glue records
+o	4.3 Record caching
+o	4.4 Reverse lookup
+o	4.5 Client lookup 
+	4.5.1 Broken resolvers
+o	4.6 Other applications
+•	5 Protocol details
+•	6 DNS resource records 
+o	6.1 Wildcard DNS records
+•	7 Protocol extensions
+•	8 Dynamic zone updates
+•	9 Security issues
+•	10 Domain name registration
+•	11 Internet standards 
+o	11.1 Security
+•	12 See also
+•	13 References
+•	14 External links
+[edit] Overview
+The Internet maintains two principal namespaces, the domain name hierarchy[2] and the Internet Protocol (IP) address system.[3] The Domain Name System maintains the domain namespace and provides translation services between these two namespaces. Internet name servers and a communications protocol implement the Domain Name System.[4] A DNS name server is a server that stores the DNS records, such as address (A) records, name server (NS) records, and mail exchanger (MX) records for a domain name (see also List of DNS record types) and responds with answers to queries against its database.
+[edit] History
+The practice of using a name as a humanly more meaningful abstraction of a host's numerical address on the network dates back to the ARPANET era. Before the DNS was invented in 1983, each computer on the network retrieved a file called HOSTS.TXT from a computer at SRI (now SRI International).[5][6] The HOSTS.TXT file mapped names to numerical addresses. A hosts file still exists on most modern operating systems, either by default or through explicit configuration. Many operating systems use name resolution logic that allows the administrator to configure selection priorities for available name resolution methods.
+The rapid growth of the network required a scalable system that recorded a change in a host's address in one place only. Other hosts would learn about the change dynamically through a notification system, thus completing a globally accessible network of all hosts' names and their associated IP addresses.
+At the request of Jon Postel, Paul Mockapetris invented the Domain Name System in 1983 and wrote the first implementation. The original specifications appeared in RFC 882 and RFC 883 which were superseded in November 1987 by RFC 1034[2] and RFC 1035.[4] Several additional Request for Comments have proposed various extensions to the core DNS protocols.
+In 1984, four Berkeley students—Douglas Terry, Mark Painter, David Riggle and Songnian Zhou—wrote the first UNIX implementation, called The Berkeley Internet Name Domain (BIND) Server.[7] In 1985, Kevin Dunlap of DEC significantly re-wrote the DNS implementation. Mike Karels, Phil Almquist and Paul Vixie have maintained BIND since then. BIND was ported to the Windows NT platform in the early 1990s.
+BIND was widely distributed, especially on Unix systems, and is the dominant DNS software in use on the Internet.[8] With the heavy use and resulting scrutiny of its open-source code, as well as increasingly more sophisticated attack methods, many security flaws were discovered in BIND. This contributed to the development of a number of alternative name server and resolver programs. BIND itself was re-written from scratch in version 9, which has a security record comparable to other modern Internet software.
+The DNS protocol was developed and defined in the early 1980s and published by the Internet Engineering Task Force.
+[edit] Structure
+[edit] Domain name space
+The domain name space consists of a tree of domain names. Each node or leaf in the tree has zero or more resource records, which hold information associated with the domain name. The tree sub-divides into zones beginning at the root zone. A DNS zone consists of a collection of connected nodes authoritatively served by an authoritative nameserver. (A single nameserver can host several zones.)
+ 
+ 
+The hierarchical domain name system, organized into zones, each served by a name server
+Administrative responsibility over any zone may be divided by creating additional zones. Authority is said to be delegated for a portion of the old space, usually in form of sub-domains, to another nameserver and administrative entity. The old zone ceases to be authoritative for the new zone.
+[edit] Domain name formulation
+The definitive descriptions of the rules for forming domain names appear in RFC 1035, RFC 1123, and RFC 2181. A domain name consists of one or more parts, technically called labels, that are conventionally concatenated, and delimited by dots, such as example.com.
+•	The right-most label conveys the top-level domain; for example, the domain name www.example.com belongs to the top-level domain com.
+•	The hierarchy of domains descends from right to left; each label to the left specifies a subdivision, or subdomain of the domain to the right. For example: the label example specifies a subdomain of the com domain, and www is a sub domain of example.com. This tree of subdivisions may consist of 127 levels.
+•	Each label may contain up to 63 characters. The full domain name may not exceed a total length of 253 characters.[9] In practice, some domain registries may have shorter limits.
+•	DNS names may technically consist of any character representable in an octet. However, the allowed formulation of domain names in the DNS root zone, and most other sub domains, uses a preferred format and character set. The characters allowed in a label are a subset of the ASCII character set, and includes the characters a through z, A through Z, digits 0 through 9, and the hyphen. This rule is known as the LDH rule (letters, digits, hyphen). Domain names are interpreted in case-independent manner. Labels may not start or end with a hyphen.[10]
+•	A hostname is a domain name that has at least one IP address associated. For example, the domain names www.example.com and example.com are also hostnames, whereas the com domain is not.
+[edit] Internationalized domain names
+The permitted character set of the DNS prevented the representation of names and words of many languages in their native alphabets or scripts. ICANN has approved the Internationalizing Domain Names in Applications (IDNA) system, which maps Unicode strings into the valid DNS character set using Punycode. In 2009 ICANN approved the installation of IDN country code top-level domains. In addition, many registries of the existing TLDs have adopted IDNA.
+[edit] Name servers
+The Domain Name System is maintained by a distributed database system, which uses the client-server model. The nodes of this database are the name servers. Each domain has at least one authoritative DNS server that publishes information about that domain and the name servers of any domains subordinate to it. The top of the hierarchy is served by the root nameservers, the servers to query when looking up (resolving) a top-level domain name (TLD).
+[edit] Authoritative name server
+An authoritative name server is a name server that gives answers that have been configured by an original source, for example, the domain administrator or by dynamic DNS methods, in contrast to answers that were obtained via a regular DNS query to another name server. An authoritative-only name server only returns answers to queries about domain names that have been specifically configured by the administrator.
+An authoritative name server can either be a master server or a slave server. A master server is a server that stores the original (master) copies of all zone records. A slave server uses an automatic updating mechanism of the DNS protocol in communication with its master to maintain an identical copy of the master records.
+Every DNS zone must be assigned a set of authoritative name servers that are installed in NS records in the parent zone.
+When domain names are registered with a domain name registrar their installation at the domain registry of a top level domain requires the assignment of a primary name server and at least one secondary name server. The requirement of multiple name servers aims to make the domain still functional even if one name server becomes inaccessible or inoperable.[11] The designation of a primary name server is solely determined by the priority given to the domain name registrar. For this purpose generally only the fully qualified domain name of the name server is required, unless the servers are contained in the registered domain, in which case the corresponding IP address is needed as well.
+Primary name servers are often master name servers, while secondary name server may be implemented as slave servers.
+An authoritative server indicates its status of supplying definitive answers, deemed authoritative, by setting a software flag (a protocol structure bit), called the Authoritative Answer (AA) bit in its responses.[4] This flag is usually reproduced prominently in the output of DNS administration query tools (such as dig) to indicate that the responding name server is an authority for the domain name in question.[4]
+[edit] Recursive and caching name server
+In principle, authoritative name servers are sufficient for the operation of the Internet. However, with only authoritative name servers operating, every DNS query must start with recursive queries at the root zone of the Domain Name System and each user system must implement resolver software capable of recursive operation.
+To improve efficiency, reduce DNS traffic across the Internet, and increase performance in end-user applications, the Domain Name System supports DNS cache servers which store DNS query results for a period of time determined in the configuration (time-to-live) of the domain name record in question. Typically, such caching DNS servers, also called DNS caches, also implement the recursive algorithm necessary to resolve a given name starting with the DNS root through to the authoritative name servers of the queried domain. With this function implemented in the name server, user applications gain efficiency in design and operation.
+The combination of DNS caching and recursive functions in a name server is not mandatory, the functions can be implemented independently in servers for special purposes.
+Internet service providers typically provide recursive and caching name servers for their customers. In addition, many home networking routers implement DNS caches and recursors to improve efficiency in the local network.
+[edit] DNS resolvers
+See also: resolv.conf
+The client-side of the DNS is called a DNS resolver. It is responsible for initiating and sequencing the queries that ultimately lead to a full resolution (translation) of the resource sought, e.g., translation of a domain name into an IP address.
+A DNS query may be either a non-recursive query or a recursive query:
+•	A non-recursive query is one in which the DNS server provides a record for a domain for which it is authoritative itself, or it provides a partial result without querying other servers.
+•	A recursive query is one for which the DNS server will fully answer the query (or give an error) by querying other name servers as needed. DNS servers are not required to support recursive queries.
+The resolver, or another DNS server acting recursively on behalf of the resolver, negotiates use of recursive service using bits in the query headers.
+Resolving usually entails iterating through several name servers to find the needed information. However, some resolvers function simplistically and can communicate only with a single name server. These simple resolvers (called "stub resolvers") rely on a recursive name server to perform the work of finding information for them.
+[edit] Operation
+[edit] Address resolution mechanism
+Domain name resolvers determine the appropriate domain name servers responsible for the domain name in question by a sequence of queries starting with the right-most (top-level) domain label.
+ 
+ 
+A DNS recursor consults three nameservers to resolve the address www.wikipedia.org.
+The process entails:
+1.	A system that needs to use the DNS is configured with the known addresses of the root servers. This is often stored in a file of root hints, which are updated periodically by an administrator from a reliable source.
+2.	Query one of the root servers to find the server authoritative for the top-level domain.
+3.	Query the obtained TLD DNS server for the address of a DNS server authoritative for the second-level domain.
+4.	Repeating the previous step to process each domain name label in sequence, until the final step which would, rather than generating the address of the next DNS server, return the IP address of the host sought.
+The diagram illustrates this process for the host www.wikipedia.org.
+The mechanism in this simple form would place a large operating burden on the root servers, with every search for an address starting by querying one of them. Being as critical as they are to the overall function of the system, such heavy use would create an insurmountable bottleneck for trillions of queries placed every day. In practice caching is used in DNS servers to overcome this problem, and as a result, root nameservers actually are involved with very little of the total traffic.
+[edit] Circular dependencies and glue records
+Name servers in delegations are identified by name, rather than by IP address. This means that a resolving name server must issue another DNS request to find out the IP address of the server to which it has been referred. If the name given in the delegation is a subdomain of the domain for which the delegation is being provided, there is a circular dependency. In this case the nameserver providing the delegation must also provide one or more IP addresses for the authoritative nameserver mentioned in the delegation. This information is called glue. The delegating name server provides this glue in the form of records in the additional section of the DNS response, and provides the delegation in the answer section of the response.
+For example, consider the domain example.org. Assume that the authoritative name server for example.org is ns1.example.org. A computer trying to resolve www.example.org will first have to resolve ns1.example.org. Since ns1 is also under example.org, resolving ns1.example.org requires resolving example.org—a circular dependency. To break the dependency, the nameserver for the org top level domain includes glue along with the delegation for example.org. The glue records are A and/or AAAA records that provide IP addresses for ns1.example.org. The resolver uses one or more of these IP addresses to satisfy the circular dependency, which allows it to communicate with ns1.example.org and finish resolving the DNS query.
+[edit] Record caching
+Because of the large volume of requests generated in the DNS for the public Internet, the designers wished to provide a mechanism to reduce the load on individual DNS servers. To this end, the DNS resolution process allows for caching of records for a period of time after an answer. This entails the local recording and subsequent consultation of the copy instead of initiating a new request upstream. The time for which a resolver caches a DNS response is determined by a value called the time to live (TTL) associated with every record. The TTL is set by the administrator of the DNS server handing out the authoritative response. The period of validity may vary from just seconds to days or even weeks.
+As a noteworthy consequence of this distributed and caching architecture, changes to DNS records do not propagate throughout the network immediately, but require all caches to expire and refresh after the TTL. RFC 1912 conveys basic rules for determining appropriate TTL values.
+Some resolvers may override TTL values, as the protocol supports caching for up to 68 years or no caching at all. Negative caching, i.e. the caching of the fact of non-existence of a record, is determined by name servers authoritative for a zone which must include the Start of Authority (SOA) record when reporting no data of the requested type exists. The value of the MINIMUM field of the SOA record and the TTL of the SOA itself is used to establish the TTL for the negative answer.
+[edit] Reverse lookup
+A reverse lookup is a query of the DNS for domain names when the IP address is known. Multiple domain names may be associated with an IP address. The DNS stores IP addresses in the form of domain names as a specially formatted names in pointer (PTR) records within the infrastructure top-level domain arpa. For IPv4, the domain is in-addr.arpa. For IPv6, the reverse lookup domain is ip6.arpa. The IP address is represented as a name in reverse-ordered octet representation for IPv4, and reverse-ordered nibble representation for IPv6.
+When performing a reverse lookup, the DNS client converts the address into these formats, and then queries the name for a PTR record following the delegation chain as for any DNS query. For example, the IPv4 address 208.80.152.2 is represented as a DNS name as 2.152.80.208.in-addr.arpa. The DNS resolver begins by querying the root servers, which point to ARIN's servers for the 208.in-addr.arpa zone. From there the Wikimedia servers are assigned for 152.80.208.in-addr.arpa, and the PTR lookup completes by querying the wikimedia nameserver for 2.152.80.208.in-addr.arpa, which results in an authoritative response.
+[edit] Client lookup
+ 
+ 
+DNS resolution sequence
+Users generally do not communicate directly with a DNS resolver. Instead DNS resolution takes place transparently in applications programs such as web browsers, e-mail clients, and other Internet applications. When an application makes a request that requires a domain name lookup, such programs send a resolution request to the DNS resolver in the local operating system, which in turn handles the communications required.
+The DNS resolver will almost invariably have a cache (see above) containing recent lookups. If the cache can provide the answer to the request, the resolver will return the value in the cache to the program that made the request. If the cache does not contain the answer, the resolver will send the request to one or more designated DNS servers. In the case of most home users, the Internet service provider to which the machine connects will usually supply this DNS server: such a user will either have configured that server's address manually or allowed DHCP to set it; however, where systems administrators have configured systems to use their own DNS servers, their DNS resolvers point to separately maintained nameservers of the organization. In any event, the name server thus queried will follow the process outlined above, until it either successfully finds a result or does not. It then returns its results to the DNS resolver; assuming it has found a result, the resolver duly caches that result for future use, and hands the result back to the software which initiated the request.
+[edit] Broken resolvers
+An additional level of complexity emerges when resolvers violate the rules of the DNS protocol. A number of large ISPs have configured their DNS servers to violate rules (presumably to allow them to run on less-expensive hardware than a fully compliant resolver), such as by disobeying TTLs, or by indicating that a domain name does not exist just because one of its name servers does not respond.[12]
+As a final level of complexity, some applications (such as web-browsers) also have their own DNS cache, in order to reduce the use of the DNS resolver library itself. This practice can add extra difficulty when debugging DNS issues, as it obscures the freshness of data, and/or what data comes from which cache. These caches typically use very short caching times—on the order of one minute[citation needed].
+Internet Explorer offers a notable exception: versions up to IE 3.x cache DNS records for 24 hours by default. Internet Explorer 4.x and later versions (up to IE 8) decrease the default time out value to half an hour. That value can be changed by modifying corresponding registry keys.[13]
+[edit] Other applications
+The system outlined above provides a somewhat simplified scenario. The Domain Name System includes several other functions:
+•	Hostnames and IP addresses do not necessarily match on a one-to-one basis. Many hostnames may correspond to a single IP address: combined with virtual hosting, this allows a single machine to serve many web sites. Alternatively a single hostname may correspond to many IP addresses: this can facilitate fault tolerance and load distribution, and also allows a site to move physical location seamlessly.
+•	There are many uses of DNS besides translating names to IP addresses. For instance, Mail transfer agents use DNS to find out where to deliver e-mail for a particular address. The domain to mail exchanger mapping provided by MX records accommodates another layer of fault tolerance and load distribution on top of the name to IP address mapping.
+•	E-mail Blacklists: The DNS system is used for efficient storage and distribution of IP addresses of blacklisted e-mail hosts. The usual method is putting the IP address of the subject host into the sub-domain of a higher level domain name, and resolve that name to different records to indicate a positive or a negative. A hypothetical example using blacklist.com, 
+o	102.3.4.5 is blacklisted => Creates 5.4.3.102.blacklist.com and resolves to 127.0.0.1
+o	102.3.4.6 is not => 6.4.3.102.blacklist.com is not found, or default to 127.0.0.2
+o	E-mail servers can then query blacklist.com through the DNS mechanism to find out if a specific host connecting to them is in the blacklist. Today many of such blacklists, either free or subscription-based, are available mainly for use by email administrators and anti-spam software.
+•	Software Updates: many anti-virus and commercial software now use the DNS system to store version numbers of the latest software updates so client computers do not need to connect to the update servers every time. For these types of applications, the cache time of the DNS records are usually shorter.
+•	Sender Policy Framework and DomainKeys, instead of creating their own record types, were designed to take advantage of another DNS record type, the TXT record.
+•	To provide resilience in the event of computer failure, multiple DNS servers are usually provided for coverage of each domain, and at the top level, thirteen very powerful root servers exist, with additional "copies" of several of them distributed worldwide via Anycast.
+•	Dynamic DNS (also referred to as DDNS) provides clients the ability to update their IP address in the DNS after it changes due to mobility, e.g.
+[edit] Protocol details
+DNS primarily uses User Datagram Protocol (UDP) on port number 53 to serve requests.[4] DNS queries consist of a single UDP request from the client followed by a single UDP reply from the server. The Transmission Control Protocol (TCP) is used when the response data size exceeds 512 bytes, or for tasks such as zone transfers. Some operating systems, such as HP-UX, are known to have resolver implementations that use TCP for all queries, even when UDP would suffice.
+[edit] DNS resource records
+Further information: List of DNS record types
+A Resource Record (RR) is the basic data element in the domain name system. Each record has a type (A, MX, etc.), an expiration time limit, a class, and some type-specific data. Resource records of the same type define a resource record set. The order of resource records in a set, returned by a resolver to an application, is undefined, but often servers implement round-robin ordering to achieve load balancing. DNSSEC, however, works on complete resource record sets in a canonical order.
+When sent over an IP network, all records use the common format specified in RFC 1035 and shown below:
+RR (Resource record) fields
+Field	Description	Length (octets)
+NAME	Name of the node to which this record pertains	(variable)
+TYPE	Type of RR in numeric form (e.g. 15 for MX RRs)	2
+CLASS	Class code	2
+TTL
+Unsigned time in seconds that RR stays valid (maximum 2147483647)	4
+RDLENGTH	Length of RDATA field	2
+RDATA	Additional RR-specific data	(variable)
+NAME is the fully qualified domain name of the node in the tree. On the wire, the name may be shortened using label compression where ends of domain names mentioned earlier in the packet can be substituted for the end of the current domain name.
+TYPE is the record type. It indicates the format of the data and it gives a hint of its intended use. For example, the A record is used to translate from a domain name to an IPv4 address, the NS record lists which name servers can answer lookups on a DNS zone, and the MX record specifies the mail server used to handle mail for a domain specified in an e-mail address (see also List of DNS record types).
+RDATA is data of type-specific relevance, such as the IP address for address records, or the priority and hostname for MX records. Well known record types may use label compression in the RDATA field, but "unknown" record types must not (RFC 3597).
+The CLASS of a record is set to IN (for Internet) for common DNS records involving Internet hostnames, servers, or IP addresses. In addition, the classes CH (Chaos) and HS (Hesiod) exist. Each class is a completely independent tree with potentially different delegations of DNS zones.
+In addition to resource records defined in a zone file, the domain name system also defines several request types that are used only in communication with other DNS nodes (on the wire), such as when performing zone transfers (AXFR/IXFR) or for EDNS (OPT).
+[edit] Wildcard DNS records
+Main article: Wildcard DNS record
+The domain name system supports wildcard domain names which are names that start with the asterisk label, '*', e.g., *.example.[2][14] DNS records belonging to wildcard domain names specify rules for generating resource records within a single DNS zone by substituting whole labels with matching components of the query name, including any specified descendants. For example, in the DNS zone x.example, the following configuration specifies that all subdomains (including subdomains of subdomains) of x.example use the mail exchanger a.x.example. The records for a.x.example are needed to specify the mail exchanger. As this has the result of excluding this domain name and its subdomains from the wildcard matches, all subdomains of a.x.example must be defined in a separate wildcard statement.
+X.EXAMPLE.       MX   10 A.X.EXAMPLE.
+*.X.EXAMPLE.     MX   10 A.X.EXAMPLE.
+*.A.X.EXAMPLE.   MX   10 A.X.EXAMPLE.
+A.X.EXAMPLE.     MX   10 A.X.EXAMPLE.
+A.X.EXAMPLE.     AAAA 2001:db8::1
+The role of wildcard records was refined in RFC 4592, because the original definition in RFC 1034 was incomplete and resulted in misinterpretations by implementers.[14]
+[edit] Protocol extensions
+The original DNS protocol had limited provisions for extension with new features. In 1999, Paul Vixie published in RFC 2671 an extension mechanism, called Extension mechanisms for DNS (EDNS) that introduced optional protocol elements without increasing overhead when not in use. This was accomplished through the OPT pseudo-resource record that only exists in wire transmissions of the protocol, but not in any zone files. Initial extensions were also suggested (EDNS0), such as increasing the DNS message size in UDP datagrams.
+[edit] Dynamic zone updates
+Dynamic DNS updates use the UPDATE DNS opcode to add or remove resource records dynamically from a zone data base maintained on an authoritative DNS server. The feature is described in RFC 2136. This facility is useful to register network clients into the DNS when they boot or become otherwise available on the network. Since a booting client may be assigned a different IP address each time from a DHCP server, it is not possible to provide static DNS assignments for such clients.
+[edit] Security issues
+DNS was not originally designed with security in mind, and thus has a number of security issues.
+One class of vulnerabilities is DNS cache poisoning, which tricks a DNS server into believing it has received authentic information when, in reality, it has not.
+DNS responses are traditionally not cryptographically signed, leading to many attack possibilities; the Domain Name System Security Extensions (DNSSEC) modifies DNS to add support for cryptographically signed responses. There are various extensions to support securing zone transfer information as well.
+Even with encryption, a DNS server could become compromised by a virus (or for that matter a disgruntled employee) that would cause IP addresses of that server to be redirected to a malicious address with a long TTL. This could have far-reaching impact to potentially millions of Internet users if busy DNS servers cache the bad IP data. This would require manual purging of all affected DNS caches as required by the long TTL (up to 68 years).
+Some domain names can spoof other, similar-looking domain names. For example, "paypal.com" and "paypa1.com" are different names, yet users may be unable to tell the difference when the user's typeface (font) does not clearly differentiate the letter l and the numeral 1. This problem is more serious in systems that support internationalized domain names, since many character codes in ISO 10646, may appear identical on typical computer screens. This vulnerability is often exploited in phishing.[citation needed]
+Techniques such as forward-confirmed reverse DNS can also be used to help validate DNS results.
+[edit] Domain name registration
+The right to use a domain name is delegated by domain name registrars which are accredited by the Internet Corporation for Assigned Names and Numbers (ICANN), the organization charged with overseeing the name and number systems of the Internet. In addition to ICANN, each top-level domain (TLD) is maintained and serviced technically by an administrative organization, operating a registry. A registry is responsible for maintaining the database of names registered within the TLD it administers. The registry receives registration information from each domain name registrar authorized to assign names in the corresponding TLD and publishes the information using a special service, the whois protocol.
+ICANN publishes the complete list of TLD registries and domain name registrars. Registrant information associated with domain names is maintained in an online database accessible with the WHOIS service. For most of the more than 240 country code top-level domains (ccTLDs), the domain registries maintain the WHOIS (Registrant, name servers, expiration dates, etc.) information. For instance, DENIC, Germany NIC, holds the DE domain data. Since about 2001, most gTLD registries have adopted this so-called thick registry approach, i.e. keeping the WHOIS data in central registries instead of registrar databases.
+For COM and NET domain names, a thin registry model is used: the domain registry (e.g. VeriSign) holds basic WHOIS (registrar and name servers, etc.) data. One can find the detailed WHOIS (registrant, name servers, expiry dates, etc.) at the registrars.
+Some domain name registries, often called network information centers (NIC), also function as registrars to end-users. The major generic top-level domain registries, such as for the COM, NET, ORG, INFO domains, use a registry-registrar model consisting of many domain name registrars[15][16] In this method of management, the registry only manages the domain name database and the relationship with the registrars. The registrants (users of a domain name) are customers of the registrar, in some cases through additional layers of resellers.
+[edit] Internet standards
+The Domain Name System is defined by Request for Comments (RFC) documents published by the Internet Engineering Task Force (Internet standards). The following is a list of RFCs that define the DNS protocol.
+•	RFC 920, Domain Requirements – Specified original top-level domains
+•	RFC 1032, Domain Administrators Guide
+•	RFC 1033, Domain Administrators Operations Guide
+•	RFC 1034, Domain Names - Concepts and Facilities
+•	RFC 1035, Domain Names - Implementation and Specification
+•	RFC 1101, DNS Encodings of Network Names and Other Types
+•	RFC 1123, Requirements for Internet Hosts—Application and Support
+•	RFC 1178, Choosing a Name for Your Computer (FYI 5)
+•	RFC 1183, New DNS RR Definitions
+•	RFC 1591, Domain Name System Structure and Delegation (Informational)
+•	RFC 1912, Common DNS Operational and Configuration Errors
+•	RFC 1995, Incremental Zone Transfer in DNS
+•	RFC 1996, A Mechanism for Prompt Notification of Zone Changes (DNS NOTIFY)
+•	RFC 2100, The Naming of Hosts (Informational)
+•	RFC 2136, Dynamic Updates in the domain name system (DNS UPDATE)
+•	RFC 2181, Clarifications to the DNS Specification
+•	RFC 2182, Selection and Operation of Secondary DNS Servers
+•	RFC 2308, Negative Caching of DNS Queries (DNS NCACHE)
+•	RFC 2317, Classless IN-ADDR.ARPA delegation (BCP 20)
+•	RFC 2671, Extension Mechanisms for DNS (EDNS0)
+•	RFC 2672, Non-Terminal DNS Name Redirection
+•	RFC 2845, Secret Key Transaction Authentication for DNS (TSIG)
+•	RFC 3225, Indicating Resolver Support of DNSSEC
+•	RFC 3226, DNSSEC and IPv6 A6 aware server/resolver message size requirements
+•	RFC 3597, Handling of Unknown DNS Resource Record (RR) Types
+•	RFC 3696, Application Techniques for Checking and Transformation of Names (Informational)
+•	RFC 4343, Domain Name System (DNS) Case Insensitivity Clarification
+•	RFC 4592, The Role of Wildcards in the Domain Name System
+•	RFC 4635, HMAC SHA TSIG Algorithm Identifiers
+•	RFC 4892, Requirements for a Mechanism Identifying a Name Server Instance (Informational)
+•	RFC 5001, DNS Name Server Identifier (NSID) Option
+•	RFC 5395, Domain Name System (DNS) IANA Considerations (BCP 42)
+•	RFC 5452, Measures for Making DNS More Resilient against Forged Answers
+•	RFC 5625, DNS Proxy Implementation Guidelines (BCP 152)
+•	RFC 5890, Internationalized Domain Names for Applications (IDNA):Definitions and Document Framework
+•	RFC 5891, Internationalized Domain Names in Applications (IDNA): Protocol
+•	RFC 5892, The Unicode Code Points and Internationalized Domain Names for Applications (IDNA)
+•	RFC 5893, Right-to-Left Scripts for Internationalized Domain Names for Applications (IDNA)
+•	RFC 5894, Internationalized Domain Names for Applications (IDNA):Background, Explanation, and Rationale (Informational)
+•	RFC 5895, Mapping Characters for Internationalized Domain Names in Applications (IDNA) 2008 (Informational)
+[edit] Security
+•	RFC 4033, DNS Security Introduction and Requirements
+•	RFC 4034, Resource Records for the DNS Security Extensions
+•	RFC 4035, Protocol Modifications for the DNS Security Extensions
+•	RFC 4509, Use of SHA-256 in DNSSEC Delegation Signer (DS) Resource Records
+•	RFC 4470, Minimally Covering NSEC Records and DNSSEC On-line Signing
+•	RFC 5011, Automated Updates of DNS Security (DNSSEC) Trust Anchors
+•	RFC 5155, DNS Security (DNSSEC) Hashed Authenticated Denial of Existence
+•	RFC 5702, Use of SHA-2 Algorithms with RSA in DNSKEY and RRSIG Resource Records for DNSSEC
+•	RFC 5910, Domain Name System (DNS) Security Extensions Mapping for the Extensible Provisioning Protocol (EPP)
+•	RFC 5933, Use of GOST Signature Algorithms in DNSKEY and RRSIG Resource Records for DNSSEC
+[edit] See also
+ 
+Computer Science portal
+•	Alternative DNS root
+•	Comparison of DNS server software
+•	DNS cache poisoning
+•	DNS hijacking
+•	DNS management software
+•	Dynamic DNS
+•	Internet Provider Security
+•	List of DNS record types
+•	Microsoft DNS
+•	Round robin DNS
+•	Split-horizon DNS
+
+</div>
+    </body>
+</html>

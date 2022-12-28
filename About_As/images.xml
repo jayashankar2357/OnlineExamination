@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Carousel>
+
+	<photo image="images/101.jpg" url="Books\C++.pdf" > </photo>
+	<photo image="images/102.jpg" url="Books\ASP.NET4.Website.Using.CSharp.and.VB.pdf"> </photo>
+	<photo image="images/103.jpg" url="Books\Computer Organization and Architecture.pdf" ></photo>
+	<photo image="images/104.jpg" url="Books\Hardware.pdf" ></photo>
+	<photo image="images/105.jpg" url="Books\Javascript.pdf"></photo>
+	<photo image="images/106.jpg" url="Books\Html.pdf"></photo>
+	<photo image="images/107.jpg" url="Books\Mobile Communications-Jochen Schiller.pdf"></photo>
+	<photo image="images/109.jpg" url="Books\Netorking A Beginner's Guide.pdf"></photo>
+	<photo image="images/110.png" url="Books\PHP 6 and MySQL.pdf"></photo>
+	<photo image="images/111.jpg"  url="Books\R.H.E. Linux.5.Administration.pdf"></photo>
+	<photo image="images/112.jpg"  url="Books\Visual Basic 2008.pdf"></photo>
+	<photo image="images/113.jpg"  url="Books\Windows.Server.2003.pdf"></photo>	
+</Carousel>

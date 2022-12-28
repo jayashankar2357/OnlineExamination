@@ -1,0 +1,54 @@
+﻿<settings>
+  <General_Properties>
+    <assets value="images.xml"/>
+    <componentWidth value="1340"/>
+    <componentHeight value="600"/>
+    <skin value="assets/skins/skin1.xml"/>
+    <radiusX value="360"/>
+    <radiusY value="180"/>
+    <centerX value="700"/>
+    <centerY value="200"/>
+    <perspective value="50"/>
+    <rotationAngle value="0"/>
+    <rotatioAngleType value="all"/>
+    <useAlphaEffect value="true"/>
+    <alphaIntensity value="10"/>
+    <showCenterImage value="true"/>
+    <centerImageAlpha value="0.9"/>    
+<centerImage value="images/108.jpg"/>
+  </General_Properties>
+<Rotation_Properties>
+    <rotateOnRollOver value="buttons"/>
+    <rollOutSpeed value="8"/>
+    <rollOverSpeed value="30"/>
+    <inverseRotation value="false"/>
+  </Rotation_Properties>
+  <Thumbs_Properties>
+    <thumbWidth value="175"/>
+    <thumbHeight value="148"/>
+    <borderCornerRadius value="40"/>
+    <borderWidth value="2"/>
+    <borderAlpha value="1"/>
+    <borderColor value="0x000000"/>
+  </Thumbs_Properties>
+  <Reflection_Properties>
+    <useReflection value="true"/>
+    <reflectionAlpha value="0.6"/>
+    <reflectionSpread value="255"/>
+    <reflectionDistance value="2"/>
+  </Reflection_Properties>
+  <Roll_Over_Properties>
+    <effectOut value="0"/>
+    <effectOver value="80"/>
+    <effectRatio value="5"/>
+    <effectType value="smooth"/>
+  </Roll_Over_Properties>
+  <Background_Properties>
+    <fillType value="image"/>
+    <backgroundImage value="images/1.jpg"/>
+    <backgroundFitting value="repeat"/>
+    <backgroundAlpha value="1.5"/>
+
+  </Background_Properties>
+  
+</settings>
